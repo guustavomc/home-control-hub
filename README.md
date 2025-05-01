@@ -40,7 +40,7 @@ Locate your phone in the scan results and note its MAC address (e.g., `AA:BB:CC:
 ### Step 3: Configure the Script
 
 1. Clone or download this repository to your Raspberry Pi.
-2. Open the `detect_phone.py` script and update the `PHONE_MAC` variable with your phone's MAC address:
+2. Open the `presence_monitor.py` script and update the `PHONE_MAC` variable with your phone's MAC address:
 
    ```python
    PHONE_MAC = "AA:BB:CC:DD:EE:FF"  # Replace with your phone's MAC address
@@ -53,7 +53,7 @@ Locate your phone in the scan results and note its MAC address (e.g., `AA:BB:CC:
 Run the script with Python 3:
 
 ```bash
-python3 detect_phone.py
+python3 presence_monitor.py
 ```
 
 The script will:
@@ -71,7 +71,7 @@ Press `Ctrl+C` to stop the script.
 
 ### Step 5: Add Automations
 
-You can trigger actions when the phone arrives or leaves. Modify the `log_event` function in `detect_phone.py` to include your automation. Examples:
+You can trigger actions when the phone arrives or leaves. Modify the `log_event` function in `presence_monitor.py` to include your automation. Examples:
 
 - **Run a script** (e.g., turn on a light):
 
@@ -106,7 +106,3 @@ The `presence_log.txt` file will contain entries like:
 2025-04-22 13:42:01 - Device connected (arrived)
 2025-04-22 14:55:47 - Device disconnected (left)
 ```
-
-## License
-
-This project is licensed under the MIT License. See the `LICENSE` file for details.
