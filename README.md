@@ -21,9 +21,9 @@ sudo apt update
 sudo apt install python3-bluetooth
 ```
 
-### Step 2: Identify Your Phone's MAC Address
+### Step 2: Identify Your Phone's Bluetooth name
 
-Find your phone's MAC address on the network by scanning:
+Find your phone's name by scanning:
 
 ```bash
 bluetoothctl
@@ -36,15 +36,15 @@ Watch the output and get your phone's name or MAC. Example:
 [NEW] Device DC:A6:32:XX:XX:XX  John's iPhone
 ```
 
-Locate your phone in the scan results and note its MAC address (e.g., `AA:BB:CC:DD:EE:FF`).
+Locate your phone in the scan results and note its name and MAC address (e.g., `AA:BB:CC:DD:EE:FF`).
 
 ### Step 3: Configure the Script
 
 1. Clone or download this repository to your Raspberry Pi.
-2. Open the `presence_monitor.py` script and update the `PHONE_MAC` variable with your phone's MAC address:
+2. Open the `presence_monitor.py` script and update the `TARGET_NAME` variable with your phone's name:
 
    ```python
-   PHONE_MAC = "AA:BB:CC:DD:EE:FF"  # Replace with your phone's MAC address
+   TARGET_NAME = "Phone Name"  # Replace with your phone's name
    ```
 
 3. Optionally, adjust the `SCAN_INTERVAL` (default: 10 seconds) or `LOG_FILE` path.
