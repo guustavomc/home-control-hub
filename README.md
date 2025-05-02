@@ -1,14 +1,14 @@
 # Raspberry Pi Phone Presence Detector
 
-This project uses a Raspberry Pi to detect the presence of a specific phone on your local network by scanning for its MAC address. When the phone connects (arrives) or disconnects (leaves), it logs the event and can trigger custom automations, such as sending alerts or controlling smart home devices.
+This project uses a Raspberry Pi to detect the presence of a specific phone. Pi constantly scans for nearby Bluetooth devices. When the phone connects (arrives) or disconnects (leaves), it logs the event and can trigger custom automations, such as sending alerts or controlling smart home devices.
 
 ## Prerequisites
 
 - Raspberry Pi with Raspbian OS installed
-- Wi-Fi enabled on the Raspberry Pi
+- Raspberry Pi with built-in Bluetooth
 - Python 3 installed
-- `arp-scan` package installed
-- Sudo privileges for running network scans
+- Your phone’s Bluetooth name
+- python3-bluetooth package
 
 ## Setup Instructions
 
@@ -18,7 +18,7 @@ Install `arp-scan` to scan the network:
 
 ```bash
 sudo apt update
-sudo apt install arp-scan
+sudo apt install python3-bluetooth
 ```
 
 ### Step 2: Identify Your Phone's MAC Address
@@ -26,13 +26,14 @@ sudo apt install arp-scan
 Find your phone's MAC address on the network by scanning:
 
 ```bash
-sudo arp-scan --interface=wlan0 --localnet
+bluetoothctl
+scan on
 ```
 
-Alternatively, use `nmap`:
+Watch the output and get your phone's name or MAC. Example:
 
 ```bash
-sudo nmap -sn 192.168.1.0/24
+[NEW] Device DC:A6:32:XX:XX:XX  John's iPhone
 ```
 
 Locate your phone in the scan results and note its MAC address (e.g., `AA:BB:CC:DD:EE:FF`).
@@ -57,15 +58,8 @@ python3 presence_monitor.py
 ```
 
 The script will:
-- Scan the network every 10 seconds.
-- Log arrivals and departures to `presence_log.txt` in the format:
-
-   ```
-   2025-04-22 13:42:01 - Device connected (arrived)
-   2025-04-22 14:55:47 - Device disconnected (left)
-   ```
-
-- Only log once per arrival or departure to avoid repetitive entries.
+- Scan the bluetooth every 10 seconds.
+- Print if the device is nearby or not.
 
 Press `Ctrl+C` to stop the script.
 
@@ -91,18 +85,3 @@ You can trigger actions when the phone arrives or leaves. Modify the `log_event`
   - Control a GPIO pin (e.g., LED or relay).
   - Integrate with smart home platforms via HTTP or MQTT.
 
-## Notes
-
-- Ensure your Raspberry Pi has a stable Wi-Fi connection.
-- The script requires `sudo` for `arp-scan`, so run it with appropriate permissions.
-- If your phone uses a randomized MAC address, assign a static IP or disable randomization in your phone's Wi-Fi settings.
-- For continuous operation, consider running the script as a service using `systemd` or a process manager like `pm2`.
-
-## Example Log Output
-
-The `presence_log.txt` file will contain entries like:
-
-```
-2025-04-22 13:42:01 - Device connected (arrived)
-2025-04-22 14:55:47 - Device disconnected (left)
-```
